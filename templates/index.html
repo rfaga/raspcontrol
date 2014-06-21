@@ -9,14 +9,28 @@
   
   
   
-  <link rel="stylesheet" href="/static/assets/jquery.mobile-1.3.1.min.css">
+  <link rel="stylesheet" href="/static/assets/jquery.mobile-1.4.2.min.css">
+  
+  <link rel="stylesheet" href="/static/assets/themes/raspcontrol.min.css" />
+  <link rel="stylesheet" href="/static/assets/themes/jquery.mobile.icons.min.css" />
   
   <!-- jQuery and jQuery Mobile -->
   <script src="/static/assets/jquery-1.9.1.min.js"></script>
-  <script src="/static/assets/jquery.mobile-1.3.1.min.js"></script>
+  <script src="/static/assets/jquery.mobile-1.4.2.min.js"></script>
 
+   
   <!-- Extra Codiqa features -->
   <script src="/static/assets/codiqa.ext.js"></script>
+  
+  
+   <style>
+   .ui-grid-a a{
+        font-weight: bolder;
+   }
+   .ui-btn-icon-left:after, .ui-btn-icon-right:after, .ui-btn-icon-top:after, .ui-btn-icon-bottom:after, .ui-btn-icon-notext:after{
+       background-color: rgba(14, 140, 193, .8)!important;
+   }
+   </style>
    
 </head>
 <body>
@@ -24,59 +38,71 @@
 <div data-role="page" id="page1">
     <div data-theme="a" data-role="header">
         <h4>
-            Raspberry Control
+            Raspcontrol
         </h4>
     </div>
     <div data-role="content">
-    
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                 <a id="transmission" data-role="button" href="/transmission" data-icon="cloud"
+                data-iconpos="top" > Transmission<br/>
+                {% if transmission %} (running) {% else %} (NOT RUNNING) {% endif %}
+                </a>
+            </div>
+            <div class="ui-block-b">
+                 <a id="xbmc" data-role="button" href="/xbmc" data-icon="video"
+                data-iconpos="top" data-theme="c"> XBMC<br/>
+                {% if xbmc %} (running) {% else %} (NOT RUNNING) {% endif %}
+                </a>
+            </div>
+        </div>
     
         <div data-role="collapsible-set">
             <div data-role="collapsible">
                 <h3>
-                    XBMC
-                    {% if xbmc %} (running) {% else %} (NOT RUNNING) {% endif %}
+                    System Operation
                 </h3>
-                <a id="transmission-stop" data-role="button" href="/xbmcstart" data-icon="arrow-d"
+                <a id="restart" data-role="button" data-theme="b" href="/reboot" data-icon="alert"
                 data-iconpos="left">
+                    Restart Linux
+                </a>
+                
+                <a id="transmission-stop" data-role="button" href="/xbmcstart" data-icon="refresh"
+                data-iconpos="left" data-theme="c">
                     Restart / Start XBMC
                 </a>
-                <a id="transmission-start" data-role="button" href="/xbmcstop" data-icon="arrow-u"
-                data-iconpos="left">
+                <a id="transmission-start" data-role="button" href="/xbmcstop" data-icon="delete"
+                data-iconpos="left" data-theme="c">
                     Stop XBMC
                 </a>
-            </div>
-        </div>
-        
-        <div data-role="collapsible-set" data-theme="a">
-            <div data-role="collapsible">
-                <h3>
-                    Transmission Daemon
-                    {% if transmission %} (running) {% else %} (NOT RUNNING) {% endif %}
-                </h3>
-                <a id="transmission-stop" data-role="button" href="/transtop" data-icon="arrow-d"
-                data-iconpos="left">
-                    Stop Transmission daemon
-                </a>
-                <a id="transmission-start" data-role="button" href="/transtart" data-icon="arrow-u"
+                <a id="transmission-start" data-role="button" href="/transtart" data-icon="delete"
                 data-iconpos="left">
                     Start Transmission daemon
                 </a>
-            </div>
-        </div>
-
-        <div data-role="collapsible-set" data-theme="e">
-            <div data-role="collapsible">
-                <h3>
-                    System Operation
-                </h3>
-            <a id="restart" data-role="button" data-theme="e" href="/reboot" data-icon="alert"
-            data-iconpos="left">
-                Restart Linux
-            </a>
+                <a id="transmission-stop" data-role="button" href="/transtop" data-icon="refresh"
+                data-iconpos="left">
+                    Stop Transmission daemon
+                </a>
             </div>
         </div>
 
     </div>
 </div>
+
+
+<script>
+$('a').click(function(e){
+    e.preventDefault();
+    var url = $(this).attr('href');
+    $.get(url).done(function(result){
+        console.log('success!');
+        location.reload();
+    }).fail(function(result){
+        console.log('fail!');
+    });
+});
+
+</script>
+
 </body>
 </html>

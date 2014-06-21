@@ -17,6 +17,18 @@ def main():
     transmission = "daemon is running" in run("service transmission-daemon status")
     return render_template("index.html", xbmc=xbmc, transmission=transmission)
 
+@app.route('/xbmc')
+def select_xbmc():
+    transmission_stop()
+    xbmc_start()
+    return redirect('/')
+
+@app.route('/xbmc')
+def select_transmission():
+    xbmc_stop()
+    transmission_start()
+    return redirect('/')
+
 
 @app.route('/xbmcstart')
 def xbmc_start():
