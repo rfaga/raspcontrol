@@ -23,7 +23,7 @@ def select_xbmc():
     xbmc_start()
     return redirect('/')
 
-@app.route('/xbmc')
+@app.route('/transmission')
 def select_transmission():
     xbmc_stop()
     transmission_start()
